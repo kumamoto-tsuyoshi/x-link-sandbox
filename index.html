@@ -4,12 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Xリンクサンドボックス</title>
+
+  <script>
+    const ua = navigator.userAgent;
+    document.getElementById('ua').textContent = ua;
+
+    // スマホで特定のブラウザを開く関数
+    function openInDefaultBrowser(url) {
+      const isIOS = /iPad|iPhone|iPod/.test(ua);
+      const isAndroid = /Android/.test(ua);
+      
+      if (isIOS) {
+        // iOSの場合: Safariで開く（通常のリンクでSafariが開く）
+        // WebView内から開く場合は window.open を使う
+        window.open(url, '_blank');
+      } else if (isAndroid) {
+        // Androidの場合: Chromeで開く
+        // intent:// スキームを使用（Chromeが優先的に開かれる）
+        const urlWithoutProtocol = url.replace(/^https?:\/\//, '');
+        const intentUrl = `intent://${urlWithoutProtocol}#Intent;scheme=https;package=com.android.chrome;end`;
+        
+        // Chromeを開く試行
+        window.location.href = intentUrl;
+        
+        // Chromeがインストールされていない場合のフォールバック
+        setTimeout(() => {
+          // Chromeが開かなかった場合、通常のリンクで開く
+          window.location.href = url;
+        }, 500);
+      } else {
+        // デスクトップの場合
+        window.open(url, '_blank');
+      }
+    }
+  </script>
 </head>
 <body>
   <h1>Xリンクサンドボックス</h1>
   <p>Xにリンクを貼った時の挙動テスト用</p>
   <p>aaaaaa</p>
 
-  <button href="safari://https://www.google.com">ブラウザで開く</button>
+  <button onclick="openInDefaultBrowser('https://www.google.com')">ブラウザで開く</button>
+
+  <p>ua: <span id="ua"></span></p>
 </body>
 </html>
