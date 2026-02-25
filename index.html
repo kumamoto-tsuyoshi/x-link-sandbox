@@ -7,13 +7,20 @@
 
   <script>
     const ua = navigator.userAgent;
+    console.log({ua});
     document.getElementById('ua').textContent = ua;
 
     // スマホで特定のブラウザを開く関数
     function openInDefaultBrowser(url) {
       const isIOS = /iPad|iPhone|iPod/.test(ua);
       const isAndroid = /Android/.test(ua);
-      
+
+      // Xのブラウザの場合
+      if (ua.includes('Twitter')) {
+        window.location.href = url;
+        return;
+      }
+
       if (isIOS) {
         // iOSの場合: Safariで開く（通常のリンクでSafariが開く）
         // WebView内から開く場合は window.open を使う
@@ -44,7 +51,7 @@
   <p>Xにリンクを貼った時の挙動テスト用</p>
   <p>aaaaaa</p>
 
-  <button onclick="openInDefaultBrowser('https://www.google.com')">ブラウザで開く</button>
+  <button onclick="openInDefaultBrowser(location.href)">ブラウザで開く</button>
 
   <p>ua: <span id="ua"></span></p>
 </body>
