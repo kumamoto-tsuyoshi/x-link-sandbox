@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Xリンクサンドボックス</title>
+</head>
+<body>
+  <h1>Xリンクサンドボックス</h1>
+  <p>Xにリンクを貼った時の挙動テスト用</p>
+
+  <button onclick="openInDefaultBrowser(location.href)">ブラウザで開く</button>
+
+  <p>ua: <span id="ua"></span></p>
 
   <script>
     const ua = navigator.userAgent;
@@ -17,7 +25,7 @@
 
       // Xのブラウザの場合
       if (ua.includes('Twitter')) {
-        window.location.href = url;
+        window.open('safari://' + url, '_blank');
         return;
       }
 
@@ -45,14 +53,5 @@
       }
     }
   </script>
-</head>
-<body>
-  <h1>Xリンクサンドボックス</h1>
-  <p>Xにリンクを貼った時の挙動テスト用</p>
-  <p>aaaaaa</p>
-
-  <button onclick="openInDefaultBrowser(location.href)">ブラウザで開く</button>
-
-  <p>ua: <span id="ua"></span></p>
 </body>
 </html>
